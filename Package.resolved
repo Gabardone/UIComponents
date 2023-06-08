@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "autolayouthelpers",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Gabardone/AutoLayoutHelpers",
+      "state" : {
+        "revision" : "579af9fcc2744ae786e150847cc4eec506cdf903",
+        "version" : "1.2.0"
+      }
+    },
+    {
+      "identity" : "swiftux",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Gabardone/SwiftUX",
+      "state" : {
+        "revision" : "f3c0126f2a19d1d1bb5d9412407d35dd372b0a2a",
+        "version" : "1.0.0"
+      }
+    }
+  ],
+  "version" : 2
+}

@@ -1,4 +1,7 @@
-# BaseTemplate
-Basic Template Repo for further projects
+# SwiftUX
 
-Check `Tooling/Tooling.md` for instructions on setup of new projects based on the template.
+UI Components built to take advantage of SwiftUX types.
+
+Currently only UIKit versions exist but AppKit versions will be coming soon.
+
+Currently in use in https://github.com/Gabardone/LunchQuest.git as a first test case.
