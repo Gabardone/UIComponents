@@ -7,6 +7,7 @@ let package = Package(
     platforms: [
         // We require Combine so that limits what we support.
         .iOS(.v14),
+        .macOS(.v11),
         .macCatalyst(.v14),
         .tvOS(.v14)
     ],
