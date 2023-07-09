@@ -5,10 +5,17 @@
 //  Created by Óscar Morales Vivó on 4/11/23.
 //
 
-#if canImport(UIKit)
 import AutoLayoutHelpers
 import SwiftUX
+#if os(macOS)
+import Cocoa
+
+public typealias XXView = NSView
+#elseif canImport(UIKit)
 import UIKit
+
+public typealias XXView = UIView
+#endif
 
 /**
  A UIComponent that whose main task is to contain another one.
@@ -20,7 +27,7 @@ import UIKit
  for the content's superview and enclosing layout area.
  */
 open class ContainerUIComponent<Controller>: UIComponent<Controller> where Controller: ControllerProtocol {
-    public var contentViewController: UIViewController? {
+    public var contentViewController: XXViewController? {
         willSet {
             guard let contentViewController, contentViewController != newValue else {
                 return
@@ -33,6 +40,18 @@ open class ContainerUIComponent<Controller>: UIComponent<Controller> where Contr
         }
 
         didSet {
+            #if os(macOS)
+            guard let contentViewController,
+                  contentViewController != oldValue else {
+                return
+            }
+
+            let contentView = contentViewController.view
+            contentSuperview.add(subview: contentView)
+            contentView.constraintsAgainstEnclosing(layoutArea: contentEnclosure).activate()
+
+            addChild(contentViewController)
+            #elseif canImport(UIKit)
             guard let contentViewController,
                   contentViewController != oldValue,
                   let contentView = contentViewController.view else {
@@ -44,6 +63,7 @@ open class ContainerUIComponent<Controller>: UIComponent<Controller> where Contr
 
             addChild(contentViewController)
             contentViewController.didMove(toParent: self)
+            #endif
         }
     }
 
@@ -51,7 +71,7 @@ open class ContainerUIComponent<Controller>: UIComponent<Controller> where Contr
      By default the view itself. Can override with any other subview in the view controller's hierarchy meant to be
      the superview of the content.
      */
-    open var contentSuperview: UIView {
+    open var contentSuperview: XXView {
         view
     }
 
@@ -64,4 +84,3 @@ open class ContainerUIComponent<Controller>: UIComponent<Controller> where Contr
         view
     }
 }
-#endif

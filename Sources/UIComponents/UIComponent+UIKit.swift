@@ -5,10 +5,17 @@
 //  Created by Óscar Morales Vivó on 3/30/23.
 //
 
-#if canImport(UIKit)
 import Combine
 import SwiftUX
+#if os(macOS)
+import Cocoa
+
+public typealias XXViewController = NSViewController
+#elseif canImport(UIKit)
 import UIKit
+
+public typealias XXViewController = UIViewController
+#endif
 
 /**
  A UIKit UIViewController that runs with a `Controller`.
@@ -18,8 +25,11 @@ import UIKit
 
  The view controller will make sure to set itself up properly with the given controller, including initializing UI,
  state and subscriptions in the right order as to avoid initialization glitches.
+
+ The macOS version uses `representedObject` as the storage for the controller. Do _not_ modify the value of the
+ property after initialization.
  */
-open class UIComponent<Controller>: UIViewController where Controller: ControllerProtocol {
+open class UIComponent<Controller>: XXViewController where Controller: ControllerProtocol {
     // MARK: - Types
 
     /**
@@ -42,8 +52,13 @@ open class UIComponent<Controller>: UIViewController where Controller: Controlle
      - Parameter bundle: To be passed up to the superview's initializer. Defaults to `nil`.
      */
     public init(controller: Controller, nibName: String? = nil, bundle: Bundle? = nil) {
+        #if os(macOS)
+        super.init(nibName: nibName, bundle: bundle)
+        super.representedObject = controller
+        #elseif canImport(UIKit)
         self.controller = controller
         super.init(nibName: nibName, bundle: bundle)
+        #endif
     }
 
     /**
@@ -56,10 +71,20 @@ open class UIComponent<Controller>: UIViewController where Controller: Controlle
 
     // MARK: - Stored Properties
 
+    #if os(macOS)
+    /**
+     The UI component's controller. No `protected` in Swift so everyone gets to look at it.
+     */
+    public var controller: Controller {
+        representedObject as! Controller // swiftlint:disable:this force_cast
+    }
+
+    #elseif canImport(UIKit)
     /**
      The UI component's controller. No `protected` in Swift so everyone gets to look at it.
      */
     public let controller: Controller
+    #endif
 
     private var controllerUpdateSubscription: (any Cancellable)?
 
@@ -87,6 +112,18 @@ open class UIComponent<Controller>: UIViewController where Controller: Controlle
             self?.updateUI(modelValue: newValue)
         }
     }
+
+    #if os(macOS)
+    override open var representedObject: Any? {
+        get {
+            super.representedObject
+        }
+
+        set {
+            preconditionFailure("Attempted to set representedObject after initialization to \(String(describing: newValue))")
+        }
+    }
+    #endif
 
     // MARK: - Abstract methods to override.
 
@@ -120,4 +157,3 @@ open class UIComponent<Controller>: UIViewController where Controller: Controlle
         assertionFailure("UIComponent.updateUI(modelValue:) is expected to be overridden.")
     }
 }
-#endif
