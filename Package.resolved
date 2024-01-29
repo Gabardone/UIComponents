@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Gabardone/AutoLayoutHelpers",
       "state" : {
-        "revision" : "579af9fcc2744ae786e150847cc4eec506cdf903",
-        "version" : "1.2.0"
+        "revision" : "45989dc5b65c6ab34f40beaf3cf1f8fb991d0730",
+        "version" : "1.2.2"
       }
     },
     {
@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Gabardone/SwiftUX",
       "state" : {
-        "revision" : "15789dfd8f6c9cbcfa18956b269fc0673e518207",
-        "version" : "1.0.1"
+        "revision" : "46cbd8ea74b3116c4d12130a4be069288ae9245c",
+        "version" : "1.0.2"
       }
     }
   ],

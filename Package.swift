@@ -1,4 +1,4 @@
-// swift-tools-version: 5.8
+// swift-tools-version: 5.9
 
 import PackageDescription
 
@@ -9,7 +9,8 @@ let package = Package(
         .iOS(.v14),
         .macOS(.v11),
         .macCatalyst(.v14),
-        .tvOS(.v14)
+        .tvOS(.v14),
+        .visionOS(.v1)
     ],
     products: [
         .library(
@@ -18,8 +19,8 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/Gabardone/AutoLayoutHelpers", .upToNextMajor(from: "1.1.2")),
-        .package(url: "https://github.com/Gabardone/SwiftUX", .upToNextMajor(from: "1.0.0"))
+        .package(url: "https://github.com/Gabardone/AutoLayoutHelpers", .upToNextMajor(from: "1.2.2")),
+        .package(url: "https://github.com/Gabardone/SwiftUX", .upToNextMajor(from: "1.0.2"))
     ],
     targets: [
         .target(
